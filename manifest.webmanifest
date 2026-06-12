@@ -1,0 +1,53 @@
+{
+  "id": "./",
+  "name": "Kalkulator SAG MTB",
+  "short_name": "SAG MTB",
+  "description": "Prosta aplikacja PWA do obliczania SAG-u zawieszenia roweru MTB.",
+  "lang": "pl",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#f3f6f1",
+  "theme_color": "#1f4d34",
+  "categories": [
+    "utilities",
+    "sports",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nowy pomiar SAG",
+      "short_name": "Nowy pomiar",
+      "description": "Otwórz kalkulator i wpisz nowy pomiar zawieszenia.",
+      "url": "./index.html",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kalkulator SAG MTB — prosta aplikacja PWA do obliczania SAG-u zawieszenia roweru.">
+  <meta name="application-name" content="Kalkulator SAG MTB">
+  <meta name="apple-mobile-web-app-title" content="SAG MTB">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1f4d34">
+  <title>Kalkulator SAG MTB</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Przejdź do treści</a>
+
+  <header class="site-header">
+    <div class="container">
+      <p class="eyebrow">Projekt edukacyjny PWA</p>
+      <h1>Kalkulator SAG MTB</h1>
+      <p class="lead">
+        Wpisz pomiary zawieszenia, a aplikacja obliczy aktualny SAG i porówna go z wartością docelową.
+      </p>
+    </div>
+  </header>
+
+  <main class="container" id="main-content">
+    <section class="card" aria-labelledby="instruction-title">
+      <h2 id="instruction-title">Co przygotować?</h2>
+      <p>
+        Zmierz skok zawieszenia oraz faktyczne ugięcie po zajęciu pozycji na rowerze.
+        Następnie wpisz docelowy SAG w procentach. Wszystkie obliczenia będą wykonywane lokalnie w przeglądarce.
+      </p>
+    </section>
+
+    <section class="card" aria-labelledby="calculator-title">
+      <h2 id="calculator-title">Dane pomiarowe</h2>
+
+      <form id="sag-form" novalidate>
+        <div class="form-group">
+          <label for="suspension-type">Typ zawieszenia</label>
+          <select id="suspension-type" name="suspensionType" aria-describedby="suspension-type-hint">
+            <option value="fork">Widelec</option>
+            <option value="shock">Damper / tylny amortyzator</option>
+          </select>
+          <p class="field-hint" id="suspension-type-hint">
+            Wybierz element zawieszenia, którego pomiar dotyczy.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="travel-mm">Skok zawieszenia <span aria-hidden="true">(mm)</span></label>
+          <input
+            id="travel-mm"
+            name="travelMm"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="np. 160"
+            aria-describedby="travel-mm-hint travel-mm-error"
+            aria-invalid="false"
+          >
+          <p class="field-hint" id="travel-mm-hint">Podaj całkowity skok zawieszenia w milimetrach.</p>
+          <p class="field-error" id="travel-mm-error"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="measured-sag-mm">Zmierzone ugięcie <span aria-hidden="true">(mm)</span></label>
+          <input
+            id="measured-sag-mm"
+            name="measuredSagMm"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="np. 32"
+            aria-describedby="measured-sag-mm-hint measured-sag-mm-error"
+            aria-invalid="false"
+          >
+          <p class="field-hint" id="measured-sag-mm-hint">Podaj ugięcie zmierzone po zajęciu pozycji na rowerze.</p>
+          <p class="field-error" id="measured-sag-mm-error"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="target-sag-percent">Docelowy SAG <span aria-hidden="true">(%)</span></label>
+          <input
+            id="target-sag-percent"
+            name="targetSagPercent"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="np. 20"
+            aria-describedby="target-sag-percent-hint target-sag-percent-error"
+            aria-invalid="false"
+          >
+          <p class="field-hint" id="target-sag-percent-hint">Podaj cel jako procent skoku zawieszenia.</p>
+          <p class="field-error" id="target-sag-percent-error"></p>
+        </div>
+
+        <div class="button-row">
+          <button class="button-primary" type="submit">Oblicz</button>
+          <button class="button-secondary" type="reset">Wyczyść</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card result-card" aria-labelledby="result-title" aria-live="polite">
+      <h2 id="result-title">Wynik</h2>
+      <p id="result-empty">Wpisz dane i wybierz przycisk „Oblicz”, aby zobaczyć wynik.</p>
+
+      <div id="result-content" hidden>
+        <dl class="result-list">
+          <div>
+            <dt>Aktualny SAG</dt>
+            <dd id="current-sag-result">—</dd>
+          </div>
+          <div>
+            <dt>Docelowe ugięcie</dt>
+            <dd id="target-sag-mm-result">—</dd>
+          </div>
+          <div>
+            <dt>Różnica</dt>
+            <dd id="difference-result">—</dd>
+          </div>
+          <div>
+            <dt>Interpretacja</dt>
+            <dd id="interpretation-result">—</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="card privacy-note" aria-labelledby="privacy-title">
+      <h2 id="privacy-title">Prywatność i tryb offline</h2>
+      <p>
+        Dane wpisane do formularza nie są wysyłane na serwer. Aplikacja nie ma backendu i wykonuje obliczenia lokalnie.
+      </p>
+      <p class="app-status" id="pwa-status" aria-live="polite">
+        Tryb offline jest przygotowywany po pierwszym załadowaniu aplikacji.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Kalkulator SAG MTB — nauka PWA bez frameworków.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
